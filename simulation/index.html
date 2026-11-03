@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Farm fire detection digital logic dashboard simulation and hardware observation.">
+  <title>Farm Fire Detection &amp; Alarm System</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">DIGITAL SYSTEM DESIGN PROJECT</div>
+      <h1>🔥 Farm Fire Detection &amp; Alarm System</h1>
+    </header>
+
+    <section class="panel">
+      <div class="section-heading">
+        <div>
+          <h2>1. Mode</h2>
+          <p class="muted">Choose the sensor inputs.</p>
+        </div>
+        <span id="modeBadge" class="mode-badge">SIMULATION MODE</span>
+      </div>
+      <div class="mode-switch" role="group" aria-label="Dashboard mode">
+        <button id="simulationMode" class="selected" type="button">Simulation </button>
+        <button id="hardwareMode" type="button">Hardware </button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>2. Sensor inputs</h2>
+      <div id="simulationInputs" class="controls">
+        <div>
+          <label>Flame sensor</label>
+          <div class="button-row">
+            <button id="flameOff" class="selected" type="button">No flame</button>
+            <button id="flameOn" type="button">Flame detected</button>
+          </div>
+        </div>
+        <div>
+          <label for="temperature">Temperature</label>
+          <div class="temp"><span id="tempValue">30</span> °C</div>
+          <input id="temperature" type="range" min="20" max="80" value="30">
+        </div>
+      </div>
+
+      <div id="hardwareInputs" class="controls hidden">
+        <div>
+          <label>Flame sensor output(F)</label>
+          <div class="button-row">
+            <button id="hwFlameOff" class="selected" type="button">0 — LOW</button>
+            <button id="hwFlameOn" type="button">1 — HIGH</button>
+          </div>
+        </div>
+        <div>
+          <label>Observed LM393 output (T40)</label>
+          <div class="button-row">
+            <button id="hwT40Off" class="selected" type="button">0 — LOW</button>
+            <button id="hwT40On" type="button">1 — HIGH</button>
+          </div>
+        </div>
+        <div>
+          <label>Observed LM393 output (T60)</label>
+          <div class="button-row">
+            <button id="hwT60Off" class="selected" type="button">0 — LOW</button>
+            <button id="hwT60On" type="button">1 — HIGH</button>
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <button id="resetButton" class="secondary" type="button">↺ Reset inputs</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>3. Sensor status and logic circuit</h2>
+      <div class="flow">
+        <div class="node"><strong>Flame sensor (F)</strong><span id="fStatus" class="pill off">0 — OFF</span></div>
+        <div class="arrow">.</div>
+        <div class="node"><strong>LM393 — 40°C (T40)</strong><span id="t40Status" class="pill off">0 — OFF</span></div>
+      </div>
+      <div class="arrow vertical-arrow">↓</div>
+      <div class="node gate"><strong>AND GATE</strong><div>F and T40</div><span id="andStatus" class="pill off">0 — OFF</span></div>
+      <div class="arrow vertical-arrow">↓</div>
+      <div class="flow">
+        <div class="node"><strong>AND gate output</strong><span id="andInput" class="pill off">0 — OFF</span></div>
+        <div class="arrow">+</div>
+        <div class="node"><strong>LM393  — 60°C (T60)</strong><span id="t60Status" class="pill off">0 — OFF</span></div>
+      </div>
+      <div class="arrow vertical-arrow">↓</div>
+      <div class="node gate or"><strong>OR GATE</strong><div> (F and T40) or T60</div><span id="orStatus" class="pill off">0 — OFF</span></div>
+    </section>
+
+    <section class="panel">
+      <h2>4. Alarm output</h2>
+      <div id="alarmBox" class="status" role="status" aria-live="polite">
+        <div id="alarmIcon" class="alarm-icon">🔕</div>
+        <div class="big" id="alarmTitle">SYSTEM NORMAL</div>
+        <div id="alarmMessage">Buzzer OFF — no fire alert condition detected.</div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>How the system works</h2>
+      <ol class="explanation">
+        <li>The first LM393 module becomes active when the simulated temperature reaches 40°C.</li>
+        <li>The AND gate activates only when both the flame sensor and the 40°C sensor are active.</li>
+        <li>The OR gate activates the alarm if the AND gate output is active or the second LM393 module reaches 60°C.</li>
+        <li>The buzzer is represented by the alarm status display.</li>
+      </ol>
+      
+    </section>
+
+    <footer>Farm Fire Detection &amp; Alarm System </footer>
+  </main>
+</body>
+</html>
